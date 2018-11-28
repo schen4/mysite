@@ -7,11 +7,24 @@ Created on Nov 27, 2018
   
 from selenium import webdriver   
 import time
-  
-browser = webdriver.Chrome()  
-browser.maximize_window()  
-url = 'http://localhost:8000'  
-browser.get(url)  
-time.sleep(2)
-assert 'Django' in browser.title
-browser.close()
+import unittest
+
+class NewVisitorTest(unittest.TestCase):
+    
+    def setUp(self):
+        self.browser = webdriver.Chrome()
+        self.browser.implicitly_wait(3)
+        
+    
+    def tearDown(self):
+        self.browser.quit()
+    
+    def test_can_start_a_list_and_retrieve_it_later(self):
+        self.browser.get("http://localhost:8000")
+        
+        self.assertIn('To-Do', self.browser.title)
+        self.fail('Finish the test!')
+
+if __name__ == "__main__":
+    unittest.main(warning='ignore')
+    
